@@ -46,8 +46,22 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    t0, t1 = 0, 1
+    r0, r1 = phi, e
+
+    while r1 != 0:
+        quotient = r0 // r1
+        t0, t1 = t1, t0 - quotient * t1
+        r0, r1 = r1, r0 - quotient * r1
+
+    if r0 != 1:
+        raise ValueError("e and phi must be prime.")
+
+    result = t0 % phi
+    if result < 0:
+        result += phi
+
+    return result
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
