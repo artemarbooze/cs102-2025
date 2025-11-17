@@ -10,23 +10,16 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     ciphertext = ""
     keyword = keyword.upper()
-    keyword_index = 0
+    key_length = len(keyword)
+    key_index = 0
 
     for char in plaintext:
         if char.isalpha():
-            if char.isupper():
-                base = ord("A")
-                key_char = keyword[keyword_index % len(keyword)]
-                shift = ord(key_char) - ord("A")
-            else:
-                base = ord("a")
-                key_char = keyword[keyword_index % len(keyword)].lower()
-                shift = ord(key_char) - ord("a")
-
-            encrypted_char = chr((ord(char) - base + shift) % 26 + base)
-            ciphertext += encrypted_char
-
-            keyword_index += 1
+            base = ord('A') if char.isupper() else ord('a')
+            shift = ord(keyword[key_index % key_length]) - ord('A')
+            encrypted = (ord(char) - base + shift) % 26
+            ciphertext += chr(encrypted + base)
+            key_index += 1
         else:
             ciphertext += char
 
@@ -45,23 +38,16 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     plaintext = ""
     keyword = keyword.upper()
-    keyword_index = 0
+    key_length = len(keyword)
+    key_index = 0
 
     for char in ciphertext:
         if char.isalpha():
-            if char.isupper():
-                base = ord("A")
-                key_char = keyword[keyword_index % len(keyword)]
-                shift = ord(key_char) - ord("A")
-            else:
-                base = ord("a")
-                key_char = keyword[keyword_index % len(keyword)].lower()
-                shift = ord(key_char) - ord("a")
-
-            decrypted_char = chr((ord(char) - base - shift) % 26 + base)
-            plaintext += decrypted_char
-
-            keyword_index += 1
+            base = ord('A') if char.isupper() else ord('a')
+            shift = ord(keyword[key_index % key_length]) - ord('A')
+            decrypted = (ord(char) - base - shift) % 26
+            plaintext += chr(decrypted + base)
+            key_index += 1
         else:
             plaintext += char
 
