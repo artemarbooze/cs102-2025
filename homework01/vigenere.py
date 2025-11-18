@@ -22,14 +22,14 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
             ciphertext += char
             continue
 
-        shift = ord(keyword[i]) - 97
+        shift = ord(keyword[i]) - ord("a")
         if char.islower():
             x = ord(char)
-            new_x = (((x - 97) + shift) % 26) + 97
+            new_x = (((x - ord("a")) + shift) % 26) + ord("a")
             ciphertext += chr(new_x)
         else:
             x = ord(char)
-            new_x = (((x - 65) + shift) % 26) + 65
+            new_x = (((x - ord("A")) + shift) % 26) + ord("A")
             ciphertext += chr(new_x)
 
     return ciphertext
@@ -59,14 +59,14 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
             plaintext += char
             continue
 
-        shift = ord(keyword[i]) - 97
+        shift = ord(keyword[i]) - ord("a")
         if char.islower():
             x = ord(char)
-            new_x = (((x - 97) - shift) % 26) + 97
+            new_x = (((x - ord("a")) - shift) % 26) + ord("a")
             plaintext += chr(new_x)
         else:
             x = ord(char)
-            new_x = (((x - 65) - shift) % 26) + 65
+            new_x = (((x - ord("A")) - shift) % 26) + ord("A")
             plaintext += chr(new_x)
 
     return plaintext
