@@ -6,7 +6,7 @@ def encrypt_transposition(plaintext, block_size, id1, id2):
 
     blocks = []
     for i in range(0, len(plaintext), block_size):
-        blocks.append(plaintext[i:i + block_size])
+        blocks.append(plaintext[i : i + block_size])
 
     encrypted_blocks = []
     for block in blocks:
