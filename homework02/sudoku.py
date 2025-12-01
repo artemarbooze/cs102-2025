@@ -6,7 +6,7 @@ T = tp.TypeVar("T")
 
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
-    """ Прочитать Судоку из указанного файла """
+    """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
     with path.open() as f:
         puzzle = f.read()
@@ -20,15 +20,11 @@ def create_grid(puzzle: str) -> tp.List[tp.List[str]]:
 
 
 def display(grid: tp.List[tp.List[str]]) -> None:
-    """Вывод Судоку """
+    """Вывод Судоку"""
     width = 2
     line = "+".join(["-" * (width * 3)] * 3)
     for row in range(9):
-        print(
-            "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
-            )
-        )
+        print("".join(grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)))
         if str(row) in "25":
             print(line)
     print()
@@ -45,7 +41,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     if len(values) % n != 0:
         raise ValueError("Длина списка не кратна n")
 
-    result = [values[i:i + n] for i in range(0, len(values), n)]
+    result = [values[i : i + n] for i in range(0, len(values), n)]
     return result
     pass
 
@@ -95,7 +91,9 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     start_row = (row // block_size) * block_size
     start_col = (col // block_size) * block_size
 
-    block = [grid[i][j] for i in range(start_row, start_row + block_size) for j in range(start_col, start_col + block_size)]
+    block = [
+        grid[i][j] for i in range(start_row, start_row + block_size) for j in range(start_col, start_col + block_size)
+    ]
     return block
     pass
 
@@ -111,7 +109,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     """
     for i in range(len(grid)):
         for j in range(len(grid[i])):
-            if grid[i][j] == '.':
+            if grid[i][j] == ".":
                 return (i, j)
     return None
     pass
@@ -127,7 +125,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    if grid[pos[0]][pos[1]] != '.':
+    if grid[pos[0]][pos[1]] != ".":
         return set()
 
     possible = {str(i) for i in range(1, 10)}
@@ -137,7 +135,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     block_vals = get_block(grid, pos)
 
     for val in row_vals + col_vals + block_vals:
-        if val != '.':
+        if val != ".":
             possible.discard(val)
 
     return possible
@@ -145,7 +143,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
-    """ Решение пазла, заданного в grid """
+    """Решение пазла, заданного в grid"""
     """ Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
@@ -165,19 +163,19 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         grid[r][c] = v
         if solve(grid):
             return grid
-        grid[r][c] = '.'
+        grid[r][c] = "."
 
     return None
     pass
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
     for i in range(9):
         for j in range(9):
             value = solution[i][j]
-            if value == '.' or value not in {'1', '2', '3', '4', '5', '6', '7', '8', '9'}:
+            if value == "." or value not in {"1", "2", "3", "4", "5", "6", "7", "8", "9"}:
                 return False
 
     for i in range(9):
@@ -223,7 +221,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """
     N = max(0, min(N, 81))
 
-    grid = [['.' for _ in range(9)] for _ in range(9)]
+    grid = [["." for _ in range(9)] for _ in range(9)]
 
     first_row = list(map(str, range(1, 10)))
     random.shuffle(first_row)
@@ -243,7 +241,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
             break
 
         temp = puzzle[i][j]
-        puzzle[i][j] = '.'
+        puzzle[i][j] = "."
 
         puzzle_copy = [row[:] for row in puzzle]
         if solve(puzzle_copy) is not None:
