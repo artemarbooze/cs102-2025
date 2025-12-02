@@ -43,7 +43,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
 
     result = [values[i : i + n] for i in range(0, len(values), n)]
     return result
-    pass
+
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -57,7 +57,7 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     """
     row_index = pos[0]
     return grid[row_index]
-    pass
+
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -72,7 +72,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     col_index = pos[1]
     col = [grid[i][col_index] for i in range(len(grid))]
     return col
-    pass
+
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -95,7 +95,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
         grid[i][j] for i in range(start_row, start_row + block_size) for j in range(start_col, start_col + block_size)
     ]
     return block
-    pass
+
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -107,12 +107,12 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            if grid[i][j] == ".":
+    for i, row in enumerate(grid):
+        for j, value in enumerate(row):
+            if value == ".":
                 return (i, j)
     return None
-    pass
+
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -130,16 +130,13 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 
     possible = {str(i) for i in range(1, 10)}
 
-    row_vals = get_row(grid, pos)
-    col_vals = get_col(grid, pos)
-    block_vals = get_block(grid, pos)
+    row_vals = set(get_row(grid, pos))
+    col_vals = set(get_col(grid, pos))
+    block_vals = set(get_block(grid, pos))
 
-    for val in row_vals + col_vals + block_vals:
-        if val != ".":
-            possible.discard(val)
+    used_values = (row_vals | col_vals | block_vals) - {"."}
 
-    return possible
-    pass
+    return possible - used_values
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
@@ -166,7 +163,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         grid[r][c] = "."
 
     return None
-    pass
+
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
@@ -195,7 +192,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
                 return False
 
     return True
-    pass
+
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
@@ -250,7 +247,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
             puzzle[i][j] = temp
 
     return puzzle
-    pass
+
 
 
 if __name__ == "__main__":
