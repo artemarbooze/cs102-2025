@@ -45,7 +45,6 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     return result
 
 
-
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения для номера строки, указанной в pos
     >>> get_row([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']], (0, 0))
@@ -57,7 +56,6 @@ def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     """
     row_index = pos[0]
     return grid[row_index]
-
 
 
 def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -72,7 +70,6 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     col_index = pos[1]
     col = [grid[i][col_index] for i in range(len(grid))]
     return col
-
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -97,7 +94,6 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     return block
 
 
-
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
@@ -112,7 +108,6 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
             if value == ".":
                 return (i, j)
     return None
-
 
 
 def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.Set[str]:
@@ -165,7 +160,6 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     return None
 
 
-
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
@@ -192,7 +186,6 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
                 return False
 
     return True
-
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
@@ -247,7 +240,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
             puzzle[i][j] = temp
 
     return puzzle
-
 
 
 if __name__ == "__main__":
