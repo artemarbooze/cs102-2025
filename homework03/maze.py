@@ -18,8 +18,25 @@ def remove_wall(
     :param coord:
     :return:
     """
+    x, y = coord
+    directions = []
 
-    pass
+    if x >= 2:
+        directions.append((-2, 0))
+
+    if y + 2 < len(grid[0]):
+        directions.append((0, 2))
+
+    if not directions:
+        return grid
+
+    dx, dy = choice(directions)
+
+    wall_x = x + dx // 2
+    wall_y = y + dy // 2
+    grid[wall_x][wall_y] = " "
+
+    return grid
 
 
 def bin_tree_maze(
@@ -47,6 +64,22 @@ def bin_tree_maze(
     # выбрать второе возможное направление
     # 3. перейти в следующую клетку, сносим между клетками стену
     # 4. повторять 2-3 до тех пор, пока не будут пройдены все клетки
+
+    for x, y in empty_cells:
+        direction = choice(["up", "right"])
+        may_go_up = x > 1
+        may_go_right = y < cols - 2
+
+        if direction == "up":
+            if may_go_up:
+                grid[x - 1][y] = " "
+            elif may_go_right:
+                grid[x][y + 1] = " "
+        elif direction == "right":
+            if may_go_right:
+                grid[x][y + 1] = " "
+            elif may_go_up:
+                grid[x - 1][y] = " "
 
     # генерация входа и выхода
     if random_exit:
