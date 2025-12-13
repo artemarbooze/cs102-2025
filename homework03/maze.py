@@ -151,7 +151,43 @@ def shortest_path(
     :param exit_coord:
     :return:
     """
-    pass
+    path = []
+    current = exit_coord
+    rows, cols = len(grid), len(grid[0])
+
+    current_k = grid[current[0]][current[1]]
+
+    if current_k == 0 or current_k == "X":
+        return None
+
+    path.append(current)
+
+    while current_k > 1:
+        x, y = current
+        neighbors = []
+
+        if x > 0:
+            neighbors.append((x - 1, y))
+        if x < rows - 1:
+            neighbors.append((x + 1, y))
+        if y > 0:
+            neighbors.append((x, y - 1))
+        if y < cols - 1:
+            neighbors.append((x, y + 1))
+
+        found = False
+        for nx, ny in neighbors:
+            if grid[nx][ny] == current_k - 1:
+                path.append((nx, ny))
+                current = (nx, ny)
+                current_k -= 1
+                found = True
+                break
+
+        if not found:
+            return None
+
+    return path
 
 
 def encircled_exit(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> bool:
@@ -193,8 +229,41 @@ def solve_maze(
     :param grid:
     :return:
     """
+    grid = deepcopy(grid)
 
-    pass
+    exits = get_exits(grid)
+
+    if len(exits) < 2:
+        return grid, exits[0] if exits else None
+
+    if len(exits) == 1:
+        return grid, exits[0]
+
+    entrance = exits[0]
+    exit_point = exits[1]
+
+    if encircled_exit(grid, exit_point):
+        return grid, None
+
+    for x in range(len(grid)):
+        for y in range(len(grid[0])):
+            if grid[x][y] == " ":
+                grid[x][y] = 0
+            elif grid[x][y] == "X" and (x, y) == entrance:
+                grid[x][y] = 1
+            elif grid[x][y] == "X":
+                grid[x][y] = 0
+
+    k = 1
+    while grid[exit_point[0]][exit_point[1]] == 0:
+        grid = make_step(grid, k)
+        k += 1
+        if k > len(grid) * len(grid[0]):
+            return grid, None
+
+    path = shortest_path(grid, exit_point)
+
+    return grid, path
 
 
 def add_path_to_grid(
