@@ -153,7 +153,7 @@ def shortest_path(
 
     current_k = grid[current[0]][current[1]]
 
-    if current_k == 0 or current_k == "X":
+    if not isinstance(current_k, int) or current_k == 0:
         return None
 
     path.append(current)
