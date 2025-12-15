@@ -1,6 +1,5 @@
 import random
 import typing as tp
-import numpy as np
 
 import pygame
 from pygame.locals import *
@@ -81,29 +80,29 @@ class GameOfLife:
         out : Grid
             Матрица клеток размером `cell_height` х `cell_width`.
         """
-        if randomize:
-            grid = np.random.randint(0, 2, size=(self.cell_height, self.cell_width))
-            return grid.tolist()
-        else:
-            grid = [[0 for _ in range(self.cell_width)] for _ in range(self.cell_height)]
-            return grid
+        cell_height, cell_width = self.cell_height, self.cell_width
+        grid: list[list[int]] = []
+        for _ in range(cell_height):
+            row = (
+                [random.randint(0, 1) for _ in range(cell_width)]
+                if randomize == True
+                else [0 for _ in range(cell_width)]
+            )
+            grid.append(row)
+
+        return grid
 
 
     def draw_grid(self) -> None:
         """
         Отрисовка списка клеток с закрашиванием их в соответствующе цвета.
         """
-        for y in range(self.cell_height):
-            for x in range(self.cell_width):
-                if self.grid[y][x] == 1:
-                    color = pygame.Color('green')
-                else:
-                    color = pygame.Color('white')
-
-                rect_x = x * self.cell_size
-                rect_y = y * self.cell_size
-
-                pygame.draw.rect(self.screen, color, (rect_x, rect_y, self.cell_size, self.cell_size))
+        surface = self.screen
+        for row_number, row in enumerate(self.grid):
+            for col_number, cell in enumerate(row):
+                color = "green" if cell == 1 else "white"
+                rect = (row_number * self.cell_height, col_number * self.cell_width, self.cell_height, self.cell_width)
+                pygame.draw.rect(surface, color, rect)
 
 
     def get_neighbours(self, cell: Cell) -> Cells:
