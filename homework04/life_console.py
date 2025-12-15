@@ -1,4 +1,5 @@
 import curses
+from time import sleep
 
 from life import GameOfLife
 from ui import UI
