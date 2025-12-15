@@ -24,7 +24,6 @@ class GUI(UI):
         for y in range(0, self.height, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color("black"), (0, y), (self.width, y))
 
-
     def draw_grid(self) -> None:
         surface = self.screen
         for row_number, row in enumerate(self.life.curr_generation):
@@ -32,7 +31,6 @@ class GUI(UI):
                 color = "green" if cell == 1 else "white"
                 rect = (row_number * self.cell_height, col_number * self.cell_width, self.cell_height, self.cell_width)
                 pygame.draw.rect(surface, color, rect)
-
 
     def run(self) -> None:
         """Запустить игру"""
@@ -65,7 +63,6 @@ class GUI(UI):
             clock.tick(self.speed)
 
         pygame.quit()
-
 
     if __name__ == "__main__":
         game = GameOfLife(size=(64, 48))

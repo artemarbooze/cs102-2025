@@ -9,7 +9,7 @@ class Console(UI):
         super().__init__(life)
 
     def draw_borders(self, screen) -> None:
-        """ Отобразить рамку. """
+        """Отобразить рамку."""
         rows = self.life.rows
         cols = self.life.cols
 
@@ -27,9 +27,8 @@ class Console(UI):
                 x = c * 2
                 screen.addstr(y, x, "|")
 
-
     def draw_grid(self, screen) -> None:
-        """ Отобразить состояние клеток. """
+        """Отобразить состояние клеток."""
         grid = self.life.curr_generation
         rows = self.life.rows
         cols = self.life.cols
@@ -40,7 +39,6 @@ class Console(UI):
                 x = c * 2 + 1
                 alive = grid[r][c]
                 screen.addstr(y, x, "O" if alive else " ")
-
 
     def run(self) -> None:
         screen = curses.initscr()

@@ -41,20 +41,14 @@ class GameOfLife:
 
         return grid
 
-
     def get_neighbours(self, cell: Cell) -> Cells:
         x, y = cell
         neighbours = []
         for next_x in range(-1, 2):
             for next_y in range(-1, 2):
-                if (
-                        (next_x != 0 or next_y != 0)
-                        and 0 <= x + next_x < self.rows
-                        and 0 <= y + next_y < self.cols
-                ):
+                if (next_x != 0 or next_y != 0) and 0 <= x + next_x < self.rows and 0 <= y + next_y < self.cols:
                     neighbours.append(self.curr_generation[x + next_x][y + next_y])
         return neighbours
-
 
     def get_next_generation(self) -> Grid:
         new_gen = self.create_grid(False)
@@ -68,14 +62,12 @@ class GameOfLife:
         self.generations += 1
         return new_gen
 
-
     def step(self) -> None:
         """
         Выполнить один шаг игры.
         """
         self.prev_generation = self.curr_generation
         self.curr_generation = self.get_next_generation()
-
 
     @property
     def is_max_generations_exceeded(self) -> bool:
@@ -86,14 +78,12 @@ class GameOfLife:
             return self.generations <= self.max_generations
         return False
 
-
     @property
     def is_changing(self) -> bool:
         """
         Изменилось ли состояние клеток с предыдущего шага.
         """
         return self.curr_generation != self.prev_generation
-
 
     @staticmethod
     def from_file(filename: pathlib.Path) -> "GameOfLife":
@@ -109,7 +99,6 @@ class GameOfLife:
         game_instance.curr_generation = grid
 
         return game_instance
-
 
     def save(self, filename: pathlib.Path) -> None:
         """
