@@ -1,7 +1,5 @@
 """Unit tests for the maze module."""
-
 import unittest
-
 from random import seed
 
 import maze
