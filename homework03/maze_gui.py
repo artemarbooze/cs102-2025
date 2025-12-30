@@ -1,4 +1,5 @@
 """GUI for maze generation and solving using tkinter."""
+
 import tkinter as tk
 from tkinter import ttk
 from typing import List
